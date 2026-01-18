@@ -16,6 +16,7 @@ export const UniqueContext = createContext({
   setUserId: () => {},
   clearInventory: () => {},
   deleteInventory: () => {},
+  setInitialInventory: () => {},
 });
 function itemsReducer(state, action) {
   //reducer can be used to manage many function at same time
@@ -35,6 +36,9 @@ function itemsReducer(state, action) {
       const copy = [...state];
       copy.splice(action.payload, 1);
       return copy;
+    case "SET":
+      const initial = action.payload;
+      return initial;
     default:
       return state;
   }
@@ -52,6 +56,9 @@ function UniqueContextProvider({ children }) {
   }
   function deleteInventory(id) {
     setInventory({ type: "DELETE", payload: id });
+  }
+  function setInitialInventory(array) {
+    setInventory({ type: "SET", payload: array });
   }
 
   const [id, setId] = useState("");
@@ -91,6 +98,7 @@ function UniqueContextProvider({ children }) {
     clearInventory: clearInventory,
     editInventory: editInventory,
     deleteInventory: deleteInventory,
+    setInitialInventory: setInitialInventory,
   };
 
   return (

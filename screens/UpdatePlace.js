@@ -3,6 +3,7 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { updatePlace } from "../util/datahttp";
 import { useState } from "react";
@@ -27,17 +28,31 @@ export default function UpdatePlace() {
     setNewPlace(newName);
   }
   async function buttonHandler() {
-    const object = { placeName: newPlace };
-    await updatePlace(uniqConxt.id, route.params.newPlaceToken, object);
-    const array = await fetchPlace(uniqConxt.id);
-    uniqConxt.addPlace(array);
-    navigation.navigate("MainScreen");
+    if (newPlace.trim().length === 0) {
+      Alert.alert("Invalid Input", "Name cannot be empty");
+      setNewPlace("");
+    } else {
+      const object = { placeName: newPlace };
+      await updatePlace(uniqConxt.id, route.params.newPlaceToken, object);
+      const array = await fetchPlace(uniqConxt.id);
+      uniqConxt.addPlace(array);
+      navigation.navigate("MainScreen");
+    }
   }
-  async function deleteHandler() {
-    await deletePlace(uniqConxt.id, route.params.newPlaceToken);
-    const array = await fetchPlace(uniqConxt.id);
-    uniqConxt.addPlace(array);
-    navigation.navigate("MainScreen");
+  function deleteHandler() {
+    async function funct() {
+      await deletePlace(uniqConxt.id, route.params.newPlaceToken);
+      const array = await fetchPlace(uniqConxt.id);
+      uniqConxt.addPlace(array);
+      navigation.navigate("MainScreen");
+    }
+    Alert.alert("Delete", "Press OK to confirm", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => funct() },
+    ]);
   }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -48,7 +63,7 @@ export default function UpdatePlace() {
           value={newPlace}
         />
         <Button onPress={buttonHandler} color={Colors.blue}>
-          EDIT
+          DONE
         </Button>
         <Button onPress={deleteHandler} color={Colors.red}>
           DELETE

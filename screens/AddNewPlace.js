@@ -3,9 +3,10 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import InputPlace from "../ui/InputPlace";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
 import { UniqueContext } from "../context/UniqueContext";
@@ -21,13 +22,18 @@ export default function AddNewPlace() {
     setPlaceName(name);
   }
   async function buttonHandler() {
-    const object = {
-      placeName: placeName,
-    };
-    const token = await storePlace(uniqConxt.id, object);
-    const array = await fetchPlace(uniqConxt.id);
-    uniqConxt.addPlace(array);
-    navigation.navigate("MainScreen");
+    if (placeName.trim().length === 0) {
+      Alert.alert("Invalid Input", "Name cannot be empty");
+      setPlaceName("");
+    } else {
+      const object = {
+        placeName: placeName,
+      };
+      const token = await storePlace(uniqConxt.id, object);
+      const array = await fetchPlace(uniqConxt.id);
+      uniqConxt.addPlace(array);
+      navigation.navigate("MainScreen");
+    }
   }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

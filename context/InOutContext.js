@@ -7,6 +7,8 @@ export const InOutContext = createContext({
   addOutArray: () => {},
   clearInArray: () => {},
   clearOutArray: () => {},
+  setNewInArray: () => {},
+  setNewOutArray: () => {},
 });
 
 function itemsReducer(state, action) {
@@ -18,6 +20,12 @@ function itemsReducer(state, action) {
     case "CLEARARRAY":
       const array = [];
       return array;
+    case "SETINARRAY":
+      const newInarray = action.payload;
+      return newInarray;
+    case "SETOUTARRAY":
+      const newOutarray = action.payload;
+      return newOutarray;
     default:
       return state;
   }
@@ -38,6 +46,13 @@ function InOutContextProvider({ children }) {
   function clearOutArray() {
     setOutArray({ type: "CLEARARRAY" });
   }
+  function setNewInArray(array) {
+    setInArray({ type: "SETINARRAY", payload: array });
+  }
+
+  function setNewOutArray(array) {
+    setOutArray({ type: "SETOUTARRAY", payload: array });
+  }
 
   const value = {
     inArray: inArray,
@@ -46,6 +61,8 @@ function InOutContextProvider({ children }) {
     addOutArray: addOutArray,
     clearInArray: clearInArray,
     clearOutArray: clearOutArray,
+    setNewInArray: setNewInArray,
+    setNewOutArray: setNewOutArray,
   };
 
   return (

@@ -45,14 +45,14 @@ export function deletePlace(id, placeToken) {
   return axios.delete(BACKEND_URL + `places/${id}/${placeToken}.json`);
 }
 
-export function updateInventory(id, placeName, placeToken, data) {
+export function updateInventory(id, placeToken, data) {
   return axios.put(
     BACKEND_URL + `places/${id}/${placeToken}/` + `placeInventory.json`,
     data
   );
 }
 
-export async function fetchInventory(id, placeName, placeToken) {
+export async function fetchInventory(id, placeToken) {
   const response = await axios.get(
     BACKEND_URL + `places/${id}/${placeToken}/` + `placeInventory.json`
   );

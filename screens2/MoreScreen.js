@@ -20,7 +20,6 @@ export default function MoreScreen() {
     inOutConxt.clearOutArray();
     authConxt.logout();
   }
-
   function backHandler() {
     uniqConxt.clearInventory();
     inOutConxt.clearInArray();
@@ -64,11 +63,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.yellowLight,
   },
   innercontainer: {
-    margin: 15,
     backgroundColor: Colors.orange,
     flexDirection: "row",
-    borderRadius: 12,
     padding: 6,
+    borderRadius: 10,
   },
   pressed: {
     opacity: 0.7,
@@ -79,12 +77,14 @@ const styles = StyleSheet.create({
     color: Colors.skin,
   },
   button: {
-    borderRadius: 6,
+    margin: 15,
+    padding: 5,
+    borderRadius: 10,
     overflow: "hidden",
     elevation: 2,
-    shadowColor: "black",
+    shadowColor: Colors.orange,
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.45,
+    shadowOpacity: 0.9,
     shadowRadius: 4,
   },
 });

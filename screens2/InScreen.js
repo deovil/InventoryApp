@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  TextInput,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, View, Text, FlatList, TextInput } from "react-native";
 import { InOutContext } from "../context/InOutContext";
 import { UniqueContext } from "../context/UniqueContext";
 import { useContext, useEffect, useState } from "react";
@@ -91,27 +83,25 @@ export default function InScreen() {
    <Button onPress={exportHandler} title="EXPORT" />
   */
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <View style={styles.search}>
-          <TextInput
-            placeholder="Enter the Product to Search"
-            onChangeText={(text) => {
-              searchHandler(text);
-            }}
-            onClear={(text) => searchHandler("")}
-          />
-        </View>
-        {empty && <Text style={styles.nodata}>No Data to Display...</Text>}
-        <FlatList
-          data={helperArray}
-          renderItem={renderHandler}
-          keyExtractor={(item) => {
-            return item + Math.random().toString();
+    <View style={styles.container}>
+      <View style={styles.search}>
+        <TextInput
+          placeholder="Enter the Product to Search"
+          onChangeText={(text) => {
+            searchHandler(text);
           }}
+          onClear={(text) => searchHandler("")}
         />
       </View>
-    </TouchableWithoutFeedback>
+      {empty && <Text style={styles.nodata}>No Data to Display...</Text>}
+      <FlatList
+        data={helperArray}
+        renderItem={renderHandler}
+        keyExtractor={(item) => {
+          return item + Math.random().toString();
+        }}
+      />
+    </View>
   );
 }
 const styles = StyleSheet.create({

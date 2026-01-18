@@ -35,7 +35,6 @@ export default function AllStock() {
     async function updateData() {
       const token = await updateInventory(
         uniqConxt.id,
-        uniqConxt.nameOfPressed,
         uniqConxt.tokenOfPressed,
         uniqConxt.inventory
       );
@@ -48,25 +47,17 @@ export default function AllStock() {
   useEffect(() => {
     async function fetchData() {
       const array = await fetchInData(uniqConxt.id, uniqConxt.tokenOfPressed);
-      for (const data of array) {
-        inOutContext.addInArray(data);
-      }
+      inOutContext.setNewInArray(array);
       const array2 = await fetchOutData(uniqConxt.id, uniqConxt.tokenOfPressed);
-      for (const data of array2) {
-        inOutContext.addOutArray(data);
-      }
+      inOutContext.setNewOutArray(array2);
     }
     fetchData();
   }, []);
 
-  function clickHandler() {
-    navigation.navigate("EditStock");
-  }
   function renderHandler(itemData) {
     return (
       <DisplayInventory
         name={itemData.item.name}
-        onClick={clickHandler}
         price={itemData.item.price}
         quantity={itemData.item.quantity}
         index={itemData.index}

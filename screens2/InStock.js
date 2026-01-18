@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import InOutCommon from "../ui/InOutCommon";
 import { useContext } from "react";
 import { InOutContext } from "../context/InOutContext";

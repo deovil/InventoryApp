@@ -27,7 +27,7 @@ export default function LoginScreen() {
     async function LoginHandler() {
       try {
         const userId = await loginUser(email, password);
-        const username = await fetchdata(userId);
+        const username = await fetchdata(userId); //fetches the username from the user id in users file
         authConxt.setUsername(username);
         uniqConxt.setUserId(userId);
         const array = await fetchPlace(userId);
@@ -36,6 +36,7 @@ export default function LoginScreen() {
         authConxt.authenticate(userId);
       } catch (error) {
         Alert.alert("Authentication Failed", "Please try to Re Login");
+        setFetching(false);
       }
     }
   }

@@ -3,6 +3,7 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { useContext, useState } from "react";
 import { UniqueContext } from "../context/UniqueContext";
@@ -29,8 +30,21 @@ export default function AddStock() {
     });
   }
   function buttonHandler() {
-    uniqConxt.addInventory(inputValues);
-    navigation.goBack();
+    if (
+      inputValues.name.trim().length === 0 ||
+      inputValues.quantity.trim().length === 0 ||
+      inputValues.price.trim().length === 0
+    ) {
+      Alert.alert("Invalid Input", "Space should not be left blank");
+    } else if (
+      parseInt(inputValues.quantity) === 0 ||
+      parseInt(inputValues.price) === 0
+    ) {
+      Alert.alert("Invalid Input", "Price and Quantity must be greater than 0");
+    } else {
+      uniqConxt.addInventory(inputValues);
+      navigation.goBack();
+    }
   }
 
   return (

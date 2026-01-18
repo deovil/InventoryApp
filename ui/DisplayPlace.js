@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable, Text, Button } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../components/Colors";
 
@@ -17,12 +17,16 @@ export default function DisplayPlace({ name, onClick, token }) {
       });
     }
     return (
-      <View style={styles.editButton}>
-        <Button
+      <View>
+        <Pressable
+          style={({ pressed }) => [
+            styles.editButton,
+            pressed && styles.pressed,
+          ]}
           onPress={editHandler}
-          title="EDIT"
-          color={Colors.orange}
-        ></Button>
+        >
+          <Text style={styles.editText}>EDIT</Text>
+        </Pressable>
       </View>
     );
   }
@@ -68,5 +72,10 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.75,
+  },
+  editText: {
+    color: Colors.orange,
+    padding: 8,
+    fontSize: 18,
   },
 });

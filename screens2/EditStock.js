@@ -3,6 +3,7 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { useState, useContext } from "react";
 import { UniqueContext } from "../context/UniqueContext";
@@ -31,26 +32,52 @@ export default function EditStock() {
       };
     });
   }
-  async function editHandler() {
-    uniqConxt.editInventory(route.params.index, inputValues);
-    const token = await updateInventory(
-      uniqConxt.id,
-      uniqConxt.nameOfPressed,
-      uniqConxt.tokenOfPressed,
-      uniqConxt.inventory
-    );
-    navigation.navigate("AllStock");
+  function editHandler() {
+    if (
+      inputValues.name.trim().length === 0 ||
+      inputValues.quantity.trim().length === 0 ||
+      inputValues.price.trim().length === 0
+    ) {
+      Alert.alert("Invalid Input", "Space should not be left blank");
+    } else if (
+      parseInt(inputValues.quantity) === 0 ||
+      parseInt(inputValues.price) === 0
+    ) {
+      Alert.alert("Invalid Input", "Price and Quantity must be greater than 0");
+    } else {
+      uniqConxt.editInventory(route.params.index, inputValues);
+      runIt();
+      async function runIt() {
+        const token = await updateInventory(
+          uniqConxt.id,
+          uniqConxt.tokenOfPressed,
+          uniqConxt.inventory
+        );
+      }
+      navigation.navigate("AllStock");
+    }
   }
-  async function deleteHandler() {
-    const id = route.params.index;
-    uniqConxt.deleteInventory(id);
-    const token = await updateInventory(
-      uniqConxt.id,
-      uniqConxt.nameOfPressed,
-      uniqConxt.tokenOfPressed,
-      uniqConxt.inventory
-    );
-    navigation.navigate("AllStock");
+  function deleteHandler() {
+    async function funct() {
+      const id = route.params.index;
+      uniqConxt.deleteInventory(id);
+      runIt();
+      async function runIt() {
+        const token = await updateInventory(
+          uniqConxt.id,
+          uniqConxt.tokenOfPressed,
+          uniqConxt.inventory
+        );
+      }
+      navigation.navigate("AllStock");
+    }
+    Alert.alert("Delete", "Press OK to confirm", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => funct() },
+    ]);
   }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -79,7 +106,7 @@ export default function EditStock() {
               keyboardType="number-pad"
             />
             <Button onPress={editHandler} color={Colors.blue}>
-              EDIT
+              DONE
             </Button>
             <Button onPress={deleteHandler} color={Colors.red}>
               DELETE

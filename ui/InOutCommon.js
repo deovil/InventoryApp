@@ -82,7 +82,7 @@ export default function InOutCommon({ OnClick, ProductName, out, quant }) {
           value={inputValues.address}
         />
         <InputData
-          label="Mo Number"
+          label="Contact Number"
           onUpdateValue={InputHandlerFunction.bind(this, "number")}
           value={inputValues.number}
           keyboardType="number-pad"

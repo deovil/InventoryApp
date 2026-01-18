@@ -27,10 +27,8 @@ export default function MainScreen() {
     uniqConxt.clearInventory();
     inOutConxt.clearInArray();
     inOutConxt.clearOutArray();
-    const array = await fetchInventory(uniqConxt.id, name, token);
-    for (const data of array) {
-      uniqConxt.addInventory(data);
-    }
+    const array = await fetchInventory(uniqConxt.id, token);
+    uniqConxt.setInitialInventory(array);
     uniqConxt.setnameOfPressed(name);
     uniqConxt.settokenOfPressed(token);
     navigation.navigate("App2");
